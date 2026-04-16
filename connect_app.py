@@ -53,7 +53,7 @@ if st.session_state.lives <= 0:
     st.title("💀 Partie terminée")
     st.warning("Reviens demain pour un nouveau puzzle !")
     st.stop()
-st.write(f"❤️ Vies restantes : {st.session_state.lives}")
+
 
 # mots déjà trouvés
 hidden_words = set(
@@ -117,7 +117,7 @@ for i, word in enumerate(visible_words):
         else:
             if len(st.session_state.selected) < 4:
                 st.session_state.selected.append(word)
-
+st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 # 📊 sélection
 st.write("### Sélection")
 st.write(st.session_state.selected)
