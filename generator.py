@@ -1,5 +1,5 @@
 import random
-from data.categories import CATEGORIES
+from categories import CATEGORIES
 import json
 from datetime import date
 
