@@ -20,7 +20,9 @@ cols = st.columns(4)
 for i, word in enumerate(puzzle["words"]):
     col = cols[i % 4]
 
-    if col.button(word, key=word):
+    btn_key = f"word_{i}"
+
+    if col.button(word, key=btn_key):
         if word in st.session_state.selected:
             st.session_state.selected.remove(word)
         else:
