@@ -19,6 +19,8 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
+
+
 # 🧠 INIT STATE
 if "puzzle" not in st.session_state:
     st.session_state.puzzle = generate_puzzle()
@@ -44,6 +46,24 @@ st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 hidden_words = set(
     w for g in st.session_state.found_groups for w in g["words"]
 )
+st.subheader("Groupes trouvés")
+
+for group in st.session_state.found_groups:
+    st.markdown(
+        f"🟩 **{group['category']}** : " +
+        ", ".join(group["words"])
+    )
+st.markdown("""
+<style>
+.group-box {
+    background: #f3f4f6;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
 # 🔲 GRID
