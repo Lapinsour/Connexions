@@ -14,6 +14,15 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+.block-container {
+    max-width: 700px;
+    margin: auto;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # init session
 if "puzzle" not in st.session_state:
     st.session_state.puzzle = generate_puzzle()
@@ -39,6 +48,9 @@ for i, word in enumerate(puzzle["words"]):
         else:
             if len(st.session_state.selected) < 4:
                 st.session_state.selected.append(word)
+
+if word in st.session_state.selected:
+    st.markdown(f"🟨 {word}")
 
 # affichage sélection
 st.write("### Sélection :")
