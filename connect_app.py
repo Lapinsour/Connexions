@@ -31,12 +31,20 @@ if "found_groups" not in st.session_state:
 
 puzzle = st.session_state.puzzle
 
+# Vies
+if "lives" not in st.session_state:
+    st.session_state.lives = 4
+if st.session_state.lives <= 0:
+    st.title("💀 Partie terminée")
+    st.warning("Reviens demain pour un nouveau puzzle !")
+    st.stop()
+st.write(f"❤️ Vies restantes : {st.session_state.lives}")
+
 # mots déjà trouvés
 hidden_words = set(
     w for g in st.session_state.found_groups for w in g["words"]
 )
 
-st.title("Connections FR")
 
 # 🔲 GRID
 cols = st.columns(4)
@@ -90,6 +98,7 @@ if st.button("Valider"):
             st.session_state.selected = []
 
         else:
+            st.session_state.lives -= 1
             st.error("❌ Mauvais groupe")
 
 if len(st.session_state.found_groups) == 4:
