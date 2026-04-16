@@ -132,7 +132,7 @@ if st.button("Valider"):
             hint = get_one_away_hint(st.session_state.selected, puzzle)
 
             if hint:
-                st.warning(f"💡 Pas loin ! Il te manque un mot pour : {hint}")
+                st.warning(f"💡 Pas loin ! Il te manque un mot...")
             else:
                 st.error("❌ Mauvais groupe")
 
