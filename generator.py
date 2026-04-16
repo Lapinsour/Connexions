@@ -1,41 +1,31 @@
 import random
-from categories import CATEGORIES
 import json
 from datetime import date
+from categories import CATEGORIES
+
 
 def generate_puzzle():
 
-    selected_cats = random.sample(CATEGORIES, 4)
+    # 1️⃣ vérifier intégrité dataset
+    for cat in CATEGORIES:
+        if len(cat["words"]) != 4:
+            raise ValueError(f"Catégorie invalide (pas 4 mots): {cat['name']}")
+
+    # 2️⃣ choisir 4 catégories
+    selected = random.sample(CATEGORIES, 4)
 
     groups = []
     words = []
 
-    # 1️⃣ construire les groupes COMPLETS d'abord
-    for cat in selected_cats:
-        if len(cat["words"]) < 4:
-            raise ValueError(f"Catégorie trop petite: {cat['name']}")
-
-        chosen = random.sample(cat["words"], 4)
-
+    # 3️⃣ construire puzzle proprement
+    for cat in selected:
         groups.append({
             "category": cat["name"],
-            "words": chosen
+            "words": cat["words"].copy()
         })
+        words.extend(cat["words"])
 
-        words.extend(chosen)
-
-    # 2️⃣ NE PAS casser les groupes ici
-    # (option : ajouter des leurres SANS remplacement)
-
-    all_decoys = []
-    for cat in selected_cats:
-        all_decoys.extend(cat.get("decoys", []))
-
-    # injecter des leurres en AJOUT, pas remplacement
-    for _ in range(4):  # 4 leurres max
-        if all_decoys:
-            words[random.randint(0, len(words)-1)] = random.choice(all_decoys)
-
+    # 4️⃣ shuffle final uniquement
     random.shuffle(words)
 
     puzzle = {
@@ -44,7 +34,7 @@ def generate_puzzle():
         "groups": groups
     }
 
-    # save
+    # 5️⃣ sauvegarde optionnelle
     try:
         with open("puzzles.json", "r", encoding="utf-8") as f:
             puzzles = json.load(f)
@@ -57,3 +47,7 @@ def generate_puzzle():
         json.dump(puzzles, f, indent=2, ensure_ascii=False)
 
     return puzzle
+
+
+if __name__ == "__main__":
+    print(generate_puzzle())
