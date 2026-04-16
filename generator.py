@@ -42,7 +42,7 @@ def generate_puzzle():
 
     puzzles.append(puzzle)
 
-    with open("data/puzzles.json", "w") as f:
+    with open("puzzles.json", "w") as f:
         json.dump(puzzles, f, indent=2, ensure_ascii=False)
 
     return puzzle
