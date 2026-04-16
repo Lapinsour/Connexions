@@ -59,7 +59,7 @@ st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 hidden_words = set(
     w for g in st.session_state.found_groups for w in g["words"]
 )
-st.subheader("Groupes trouvés")
+st.markdown("<h1 style='text-align: center;'>Connections !</h1>", unsafe_allow_html=True)
 
 for group in st.session_state.found_groups:
     st.markdown(f"""
