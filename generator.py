@@ -35,9 +35,9 @@ def generate_puzzle():
 
     # Sauvegarde dans puzzles.json
     try:
-        with open("data/puzzles.json") as f:
+        with open("puzzles.json", "r", encoding="utf-8") as f:
             puzzles = json.load(f)
-    except FileNotFoundError:
+    except (FileNotFoundError, json.JSONDecodeError):
         puzzles = []
 
     puzzles.append(puzzle)
