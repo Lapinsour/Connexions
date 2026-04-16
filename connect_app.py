@@ -9,12 +9,25 @@ st.set_page_config(layout="centered")
 # 🎨 CSS global
 st.markdown("""
 <style>
-div.stButton > button {
-    width: 100%;
-    height: 70px;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: 0.2s;
+.group-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.group-box {
+    background: #f6f7f9;
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    width: 80%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.group-title {
+    font-weight: 700;
+    margin-bottom: 4px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -49,10 +62,14 @@ hidden_words = set(
 st.subheader("Groupes trouvés")
 
 for group in st.session_state.found_groups:
-    st.markdown(
-        f"🟩 **{group['category']}** : " +
-        ", ".join(group["words"])
-    )
+    st.markdown(f"""
+<div class="group-container">
+    <div class="group-box">
+        <div class="group-title">🟩 {group['category']}</div>
+        <div>{", ".join(group["words"])}</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 st.markdown("""
 <style>
 .group-box {
