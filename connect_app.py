@@ -92,8 +92,5 @@ if st.button("Valider"):
         else:
             st.error("❌ Mauvais groupe")
 
-# 🔄 nouveau puzzle
-if st.button("Nouveau puzzle"):
-    st.session_state.puzzle = generate_puzzle()
-    st.session_state.selected = []
-    st.session_state.found_groups = []
+if len(st.session_state.found_groups) == 4:
+    st.success("🎉 Puzzle terminé !")
