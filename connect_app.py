@@ -3,6 +3,17 @@ import random
 from generator import generate_puzzle
 from validator import check_group
 
+st.markdown("""
+<style>
+div.stButton > button {
+    width: 100%;
+    height: 70px;
+    font-size: 16px;
+    font-weight: 500;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # init session
 if "puzzle" not in st.session_state:
     st.session_state.puzzle = generate_puzzle()
@@ -20,9 +31,9 @@ cols = st.columns(4)
 for i, word in enumerate(puzzle["words"]):
     col = cols[i % 4]
 
-    btn_key = f"word_{i}"
+    key = f"word_{i}"
 
-    if col.button(word, key=btn_key):
+    if col.button(word, key=key):
         if word in st.session_state.selected:
             st.session_state.selected.remove(word)
         else:
