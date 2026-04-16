@@ -65,6 +65,16 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+def get_one_away_hint(selected_words, puzzle):
+    selected = set(selected_words)
+
+    for group in puzzle["groups"]:
+        group_set = set(group["words"])
+
+        if len(selected & group_set) == 3:
+            return group["category"]
+
+    return None
 
 # 🔲 GRID
 cols = st.columns(4)
@@ -119,7 +129,12 @@ if st.button("Valider"):
 
         else:
             st.session_state.lives -= 1
-            st.error("❌ Mauvais groupe")
+            hint = get_one_away_hint(st.session_state.selected, puzzle)
+
+            if hint:
+                st.warning(f"💡 Pas loin ! Il te manque un mot pour : {hint}")
+            else:
+                st.error("❌ Mauvais groupe")
 
 if len(st.session_state.found_groups) == 4:
     st.success("🎉 Puzzle terminé !")
