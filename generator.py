@@ -4,26 +4,37 @@ import json
 from datetime import date
 
 def generate_puzzle():
-    # Tirer 4 catégories aléatoires
-    selected_cats = random.sample(CATEGORIES, 4)
-    
-    words = []
-    groups = []
 
+    selected_cats = random.sample(CATEGORIES, 4)
+
+    groups = []
+    words = []
+
+    # 1️⃣ construire les groupes COMPLETS d'abord
     for cat in selected_cats:
+        if len(cat["words"]) < 4:
+            raise ValueError(f"Catégorie trop petite: {cat['name']}")
+
         chosen = random.sample(cat["words"], 4)
-        words.extend(chosen)
+
         groups.append({
             "category": cat["name"],
             "words": chosen
         })
 
-    # Injection de leurres : 1 mot "decoy" par catégorie, aléatoire
+        words.extend(chosen)
+
+    # 2️⃣ NE PAS casser les groupes ici
+    # (option : ajouter des leurres SANS remplacement)
+
+    all_decoys = []
     for cat in selected_cats:
-        if "decoys" in cat and cat["decoys"]:
-            fake_word = random.choice(cat["decoys"])
-            replace_index = random.randint(0, len(words)-1)
-            words[replace_index] = fake_word
+        all_decoys.extend(cat.get("decoys", []))
+
+    # injecter des leurres en AJOUT, pas remplacement
+    for _ in range(4):  # 4 leurres max
+        if all_decoys:
+            words[random.randint(0, len(words)-1)] = random.choice(all_decoys)
 
     random.shuffle(words)
 
@@ -33,22 +44,16 @@ def generate_puzzle():
         "groups": groups
     }
 
-    # Sauvegarde dans puzzles.json
+    # save
     try:
         with open("puzzles.json", "r", encoding="utf-8") as f:
             puzzles = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except:
         puzzles = []
 
     puzzles.append(puzzle)
 
-    with open("puzzles.json", "w") as f:
+    with open("puzzles.json", "w", encoding="utf-8") as f:
         json.dump(puzzles, f, indent=2, ensure_ascii=False)
 
     return puzzle
-
-# Pour tester
-if __name__ == "__main__":
-    puzzle = generate_puzzle()
-    print("Puzzle généré :")
-    print(puzzle)
