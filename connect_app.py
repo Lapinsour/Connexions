@@ -28,8 +28,8 @@ div.stButton > button {
 div.stButton > button p {
     margin: 0;
     padding: 0;
-    white-space: normal;
-    line-height: 1.1;
+    white-space: nowrap;
+    
     overflow: hidden;
     text-overflow: ellipsis;
 }
