@@ -124,11 +124,39 @@ for row in range(4):
         label = f"🟨 {word}" if word in st.session_state.selected else word
 
         if col.button(label, key=key):
+
             if word in st.session_state.selected:
                 st.session_state.selected.remove(word)
+        
             else:
                 if len(st.session_state.selected) < 4:
                     st.session_state.selected.append(word)
+        
+            # 🚀 AUTO-VALIDATION
+            if len(st.session_state.selected) == 4:
+        
+                result = check_group(st.session_state.selected, puzzle)
+        
+                if result["correct"]:
+        
+                    st.session_state.found_groups.append({
+                        "category": result["category"],
+                        "words": st.session_state.selected.copy()
+                    })
+        
+                    st.session_state.selected = []
+        
+                else:
+                    st.session_state.lives -= 1
+        
+                    hint = get_one_away_hint(st.session_state.selected, puzzle)
+        
+                    if hint:
+                        st.session_state.last_hint = f"💡 Pas loin ! {hint}"
+                    else:
+                        st.session_state.last_hint = "❌ Mauvais groupe"
+        
+                    st.session_state.selected = []
         
             st.rerun()
 st.write(f"❤️ Vies restantes : {st.session_state.lives}")
