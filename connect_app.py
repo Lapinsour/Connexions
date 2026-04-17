@@ -9,33 +9,37 @@ st.set_page_config(layout="centered")
 st.markdown("""
 <style>
 
-/* empêche le wrap des colonnes */
-[data-testid="column"] {
-    min-width: 0 !important;
-}
-
-/* container des colonnes */
-[data-testid="stHorizontalBlock"] {
-    flex-wrap: nowrap !important;
-}
-
-/* boutons */
+/* bouton = case fixe */
 div.stButton > button {
     width: 100%;
-    height: 70px;
-    font-size: 14px;
-    padding: 0;
+    height: 80px;          /* 🔥 hauteur fixe */
+    font-size: 15px;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* 📱 MOBILE */
+/* évite les variations selon texte */
+div.stButton > button p {
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+    line-height: 1.1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 📱 mobile */
 @media (max-width: 600px) {
-
-    /* réduit taille mais garde 4 colonnes */
     div.stButton > button {
-        height: 50px;
-        font-size: 11px;
+        height: 60px;
+        font-size: 12px;
     }
-
 }
 
 </style>
