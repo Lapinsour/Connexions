@@ -157,6 +157,7 @@ if st.button("Valider"):
 
             # 💥 animation pseudo-disparition (rerun)
             st.session_state.selected = []
+            st.rerun()
 
         else:
             st.session_state.lives -= 1
