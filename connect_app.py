@@ -73,7 +73,7 @@ hidden_words = set(
     w for g in st.session_state.found_groups for w in g["words"]
 )
 st.markdown("<h1 style='text-align: center;'>Connections !</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center;'>f"❤️ Vies restantes : {st.session_state.lives}"</h2>", unsafe_allow_html=True)
+
 st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 
 if "feedback" in st.session_state:
