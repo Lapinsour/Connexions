@@ -129,6 +129,8 @@ for row in range(4):
             else:
                 if len(st.session_state.selected) < 4:
                     st.session_state.selected.append(word)
+        
+            st.rerun()
 st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 # 📊 sélection
 st.write("### Sélection")
