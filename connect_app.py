@@ -69,6 +69,7 @@ hidden_words = set(
     w for g in st.session_state.found_groups for w in g["words"]
 )
 st.markdown("<h1 style='text-align: center;'>Connections !</h1>", unsafe_allow_html=True)
+st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 
 if "feedback" in st.session_state:
 
@@ -171,10 +172,8 @@ for row in range(4):
                     st.session_state.selected = []
         
             st.rerun()
-st.write(f"❤️ Vies restantes : {st.session_state.lives}")
-# 📊 sélection
-st.write("### Sélection")
-st.write(st.session_state.selected)
+
+
 
 
 
