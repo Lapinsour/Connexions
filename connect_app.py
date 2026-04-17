@@ -70,6 +70,16 @@ hidden_words = set(
 )
 st.markdown("<h1 style='text-align: center;'>Connections !</h1>", unsafe_allow_html=True)
 
+if "feedback" in st.session_state:
+
+    if st.session_state.get("feedback_type") == "warning":
+        st.warning(st.session_state.feedback)
+    else:
+        st.error(st.session_state.feedback)
+
+    del st.session_state.feedback
+    del st.session_state.feedback_type
+
 for group in st.session_state.found_groups:
     st.markdown(f"""
 <div class="group-container">
@@ -148,13 +158,15 @@ for row in range(4):
         
                 else:
                     st.session_state.lives -= 1
-        
+
                     hint = get_one_away_hint(st.session_state.selected, puzzle)
-        
+                    
                     if hint:
-                        st.session_state.last_hint = f"💡 Pas loin ! {hint}"
+                        st.session_state.feedback = "💡 Pas loin ! Il te manque un mot..."
+                        st.session_state.feedback_type = "warning"
                     else:
-                        st.session_state.last_hint = "❌ Mauvais groupe"
+                        st.session_state.feedback = "❌ Mauvais groupe"
+                        st.session_state.feedback_type = "error"
         
                     st.session_state.selected = []
         
@@ -164,37 +176,7 @@ st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 st.write("### Sélection")
 st.write(st.session_state.selected)
 
-# ✅ validation
-if st.button("Valider"):
-    if len(st.session_state.selected) != 4:
-        st.warning("Sélectionne 4 mots")
-    else:
-        result = check_group(st.session_state.selected, puzzle)
 
-        if result["correct"]:
-
-            # 🔥 trouver groupe complet
-            group_words = st.session_state.selected.copy()
-
-            st.session_state.found_groups.append({
-                "category": result["category"],
-                "words": group_words
-            })
-
-            st.success(f"✔ {result['category']}")
-
-            # 💥 animation pseudo-disparition (rerun)
-            st.session_state.selected = []
-            st.rerun()
-
-        else:
-            st.session_state.lives -= 1
-            hint = get_one_away_hint(st.session_state.selected, puzzle)
-
-            if hint:
-                st.warning(f"💡 Pas loin ! Il te manque un mot...")
-            else:
-                st.error("❌ Mauvais groupe")
 
 if len(st.session_state.found_groups) == 4:
     st.success("🎉 Puzzle terminé !")
