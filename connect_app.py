@@ -6,29 +6,38 @@ GROUP_COLORS = ["#f9d342", "#7bd389", "#6ec1e4", "#c084fc"]
 
 st.set_page_config(layout="centered")
 
-# 🎨 CSS global
 st.markdown("""
 <style>
-.group-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 8px;
+
+/* empêche le wrap des colonnes */
+[data-testid="column"] {
+    min-width: 0 !important;
 }
 
-.group-box {
-    background: #f6f7f9;
-    border: 1px solid #e0e0e0;
-    padding: 10px 14px;
-    border-radius: 10px;
-    width: 80%;
-    text-align: center;
+/* container des colonnes */
+[data-testid="stHorizontalBlock"] {
+    flex-wrap: nowrap !important;
+}
+
+/* boutons */
+div.stButton > button {
+    width: 100%;
+    height: 70px;
     font-size: 14px;
+    padding: 0;
 }
 
-.group-title {
-    font-weight: 700;
-    margin-bottom: 4px;
+/* 📱 MOBILE */
+@media (max-width: 600px) {
+
+    /* réduit taille mais garde 4 colonnes */
+    div.stButton > button {
+        height: 50px;
+        font-size: 11px;
+    }
+
 }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -98,25 +107,28 @@ cols = st.columns(4)
 
 visible_words = [w for w in puzzle["words"] if w not in hidden_words]
 
-for i, word in enumerate(visible_words):
+for row in range(4):
+    cols = st.columns(4)
 
-    col = cols[i % 4]
-    key = f"word_{word}"
+    for col_idx in range(4):
+        i = row * 4 + col_idx
 
-    # 🎨 couleur si sélectionné
-    if word in st.session_state.selected:
-        label = f"🟨 {word}"
-    else:
-        label = word
+        if i >= len(visible_words):
+            continue
 
-    if col.button(label, key=key):
+        word = visible_words[i]
 
-        # toggle sélection
-        if word in st.session_state.selected:
-            st.session_state.selected.remove(word)
-        else:
-            if len(st.session_state.selected) < 4:
-                st.session_state.selected.append(word)
+        col = cols[col_idx]
+        key = f"w_{i}"
+
+        label = f"🟨 {word}" if word in st.session_state.selected else word
+
+        if col.button(label, key=key):
+            if word in st.session_state.selected:
+                st.session_state.selected.remove(word)
+            else:
+                if len(st.session_state.selected) < 4:
+                    st.session_state.selected.append(word)
 st.write(f"❤️ Vies restantes : {st.session_state.lives}")
 # 📊 sélection
 st.write("### Sélection")
